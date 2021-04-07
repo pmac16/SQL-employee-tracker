@@ -1,13 +1,8 @@
 const inquirer = require('inquirer');
-const mysql = require('mysql');
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '1012Brooklyn!',
-    database: 'employee_db'
-});
+const connection = require('./config/connection.js')
 
 connection.connect((err) => {
+    if(err) throw err
     console.log('Connected to Database')
 })
 
@@ -22,12 +17,11 @@ const openingPrompts = () => {
     ])
     .then((openingAnswer) => {
         if(openingAnswer.task === 'View all departments') {
-            //departments function
             viewDepartments();
         } else if (openingAnswer.task === 'View all roles') {
-            //roles function
+            viewRoles();
         } else if (openingAnswer.task === 'View all employees') {
-            //view employees function
+            viewEmployees();
         } else if (openingAnswer.task === 'Add a department') {
             addDepartment();
         } else if (openingAnswer.task === 'Add a role') {
@@ -43,6 +37,24 @@ const openingPrompts = () => {
 const viewDepartments = () => {
     connection.query(
         "SELECT * FROM department", 
+        (err, res) => {
+            console.table(res)
+        }
+    )
+}
+
+const viewRoles = () => {
+    connection.query(
+        "SELECT * FROM roles", 
+        (err, res) => {
+            console.table(res)
+        }
+    )
+}
+
+const viewEmployees = () => {
+    connection.query(
+        "SELECT * FROM employees", 
         (err, res) => {
             console.table(res)
         }
