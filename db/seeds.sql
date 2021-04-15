@@ -1,18 +1,19 @@
 INSERT INTO department(name)
 VALUES
-('Toby Macpherson'),
-('Priya Nathan'),
-('Jake Levins'),
-('Lahari Rao'),
-('Melissa Sheehan');
+('Sales'),
+('Accounting'),
+('Engineering'),
+('Legal'),
+('Human Resources');
 
 INSERT INTO role(title, salary, department_id)
 VALUES
 ('Sales Lead', '100000', '1'),
-('Salesperson', '90000', '2'),
+('Accountant', '90000', '2'),
 ('Lead Engineer', '80000', '3'),
-('Legal Team Lead', '70000', '4'),
+('Payroll', '70000', '4'),
 ('Lawyer', '60000', '5');
+
 
 INSERT INTO employee(first_name, last_name, role_id, manager_id)
 VALUES

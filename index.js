@@ -149,7 +149,8 @@ const addEmployee = () => {
       message: "Who is the employee's manager?",
       //choices from the list of managers
     },
-  ]);
+  ])
+  
   //then employee is added to the database
 };
 
