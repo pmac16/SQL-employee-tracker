@@ -103,8 +103,7 @@ const addRole = () => {
         },
       ])
       .then((answer) => {
-        console.log(answer);
-        console.log(res);
+  
         const match = res.find((department) => {
           return department.name === answer.department; //find the object where the darptemnt name matches whatever the user put in
         });
@@ -116,8 +115,8 @@ const addRole = () => {
             department_id: match.id,
           },
           (err, res) => {
-              if(err) throw err;
-              console.log(res);
+            if (err) throw err;
+            console.log(res);
             console.log("Role added.");
           }
         );
@@ -126,32 +125,64 @@ const addRole = () => {
 };
 
 const addEmployee = () => {
-  return inquirer.prompt([
-    {
-      type: "input",
-      name: "firstName",
-      message: "What is the employee's first name?",
-    },
-    {
-      type: "input",
-      name: "lastName",
-      message: "What is the employee's last name?",
-    },
-    {
-      type: "list",
-      name: "role",
-      message: "What is the employee's role?",
-      //choices based on the database
-    },
-    {
-      type: "input",
-      name: "manager",
-      message: "Who is the employee's manager?",
-      //choices from the list of managers
-    },
-  ])
-  
-  //then employee is added to the database
+  connection.query("SELECT id, CONCAT(first_name, ' ', last_name) AS name FROM employee", (err, employeeRes) => {
+    connection.query("SELECT id, title AS name FROM role", (err, roleRes) => {
+      inquirer.prompt([
+        {
+          type: "input",
+          name: "firstName",
+          message: "What is the employee's first name?",
+        },
+        {
+          type: "input",
+          name: "lastName",
+          message: "What is the employee's last name?",
+        },
+        {
+          type: "list",
+          choices: roleRes,
+          name: "role",
+          message: "What is the employee's role?",
+          //choices based on the database
+          //can the choices be in a separate function with a connection.query and then call the function here?
+        },
+        {
+          type: "list",
+          choices: employeeRes,
+          name: "manager",
+          message: "Who is the employee's manager?",
+          //choices from the list of managers
+        },
+      ])
+      .then((answer) => {
+        const roleMatch = roleRes.find((role) => {
+          return role.name === answer.role;
+        })
+
+        const employeeMatch = employeeRes.find((employee) => {
+          return employee.name === answer.manager;
+        })
+
+        connection.query(
+          "INSERT INTO employee set ?",
+          {
+            first_name:answer.firstName ,
+            last_name: answer.lastName,
+            role_id: roleMatch.id,
+            manager_id: employeeMatch.id ,
+          },
+          (err, res) => {
+            if (err) throw err;
+            console.log(res);
+            console.log("Employee added.");
+          }
+        )
+      })
+    });
+  });
+
 };
+
+//need the options for what to do to come back at the end
 
 openingPrompts();
