@@ -92,10 +92,10 @@ const addDepartment = () => {
         { name: answer.name },
         (err, res) => {
           console.log("Department added.");
+          openingPrompts();
         }
       );
     });
-  openingPrompts();
 };
 
 const addRole = () => {
@@ -134,11 +134,11 @@ const addRole = () => {
             if (err) throw err;
             console.log(res);
             console.log("Role added.");
+            openingPrompts();
           }
         );
       });
   });
-  openingPrompts();
 };
 
 const addEmployee = () => {
@@ -195,13 +195,13 @@ const addEmployee = () => {
                 if (err) throw err;
                 console.log(res);
                 console.log("Employee added.");
+                openingPrompts();
               }
             );
           });
       });
     }
   );
-  openingPrompts();
 };
 
 const updateEmployee = () => {
@@ -248,16 +248,15 @@ const updateEmployee = () => {
               (err, res) => {
                 if (err) throw err;
                 console.log(res);
-                console.log("Employee added.");
+                console.log("Employee updated.");
+                openingPrompts();
               }
             );
           });
       });
     }
   );
-  openingPrompts();
 };
-
 //need the options for what to do to come back at the end
 
 openingPrompts();
